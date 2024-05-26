@@ -26,6 +26,7 @@ def join(message):
 def join(message):
     query = (message.text.split()[1])
     deets = getMatchedContext(query)
+    print(deets)
     while isinstance(deets , type(None)):
         print("waiting...")
         pass
