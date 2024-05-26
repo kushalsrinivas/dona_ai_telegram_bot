@@ -1,5 +1,6 @@
 import telebot
-from utils import join_meet,getSerilisedText
+from utils import join_meet,getSerilisedText,getMatchedContext
+from chatai import gpt
 api_key  = "6905027579:AAFEmVjm8Qi-S8O8Bq_ZHL821TYvz7p8IYg"
 bot = telebot.TeleBot(api_key)
 
@@ -21,6 +22,19 @@ def join(message):
                      parse_mode="Markdown")
 
 
+@bot.message_handler(commands=['ask'])
+def join(message):
+    query = (message.text.split()[1])
+    deets = getMatchedContext(query)
+    while isinstance(deets , type(None)):
+        print("waiting...")
+        pass
+
+    formatted_Text = f"${gpt(deets['data'] ,query)}"
+
+    print(formatted_Text)
+    bot.send_message(message.chat.id, formatted_Text,
+                     parse_mode="Markdown")
 @bot.message_handler(commands=['table'])
 def table(message):
     table = "<pre><pre>"
